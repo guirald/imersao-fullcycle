@@ -11,10 +11,12 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    CacheModule.register({
-      store: redisStore,
-      host: 'redis',
-      port: '6379',
+    CacheModule.registerAsync({
+      useFactory: () => ({
+        store: redisStore,
+        host: process.env.REDIS_HOST,
+        port: parseInt(process.env.REDIS_PORT),
+      }),
     }),
     MongooseModule.forFeature([
       {
