@@ -10,19 +10,16 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true }),
     BullModule.forRoot({
       redis: {
         host: process.env.REDIS_HOST,
         port: parseInt(process.env.REDIS_PORT),
       },
     }),
-    MongooseModule.forRoot(
-      process.env.MONGO_DNS,
-      {
-        useNewUrlParser: true,
-      },
-    ),
+    MongooseModule.forRoot(process.env.MONGO_DNS, {
+      useNewUrlParser: true,
+    }),
     ScheduleModule.forRoot(),
     TweetsModule,
     MailListModule,
